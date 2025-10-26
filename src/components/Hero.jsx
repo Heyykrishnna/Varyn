@@ -95,7 +95,7 @@ export default function Hero() {
             <div className="p-6 sm:p-8 border-t lg:border-t-0 lg:border-l border-black/10 bg-gray-50 rounded-2xl">
               <div className="flex">
                 <img
-                  src="https://res.cloudinary.com/dyzxnud9z/image/upload/v1757401349/smoothui/hero-example_xertaz.png"
+                  src="https://i.postimg.cc/8C0Gb1SG/hero-example-xertaz-Edited.png"
                   alt="app screen"
                   className="h-full w-full object-cover"
                 />
