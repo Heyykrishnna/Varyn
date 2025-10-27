@@ -40,10 +40,17 @@ const StyledWrapper = styled.div`
     display: flex;
     align-items: center;
     height: 50px;
-    width: 550px;
+    max-width: 100%;
+    width: 100%;
+    flex-wrap: nowrap;
     overflow: hidden;
     padding: 0 8px; /* added padding to create spacing on left and right */
     box-sizing: border-box;
+
+    @media (max-width: 600px) {
+      height: 45px;
+      font-size: 16px;
+    }
   }
   .filter-switch input {
     display: none;
@@ -59,7 +66,7 @@ const StyledWrapper = styled.div`
     z-index: 1;
     transition: all 0.5s;
     font-weight: 500;
-    font-size: 18px;
+    font-size: clamp(14px, 2vw, 18px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -68,7 +75,7 @@ const StyledWrapper = styled.div`
   }
   .filter-switch .background {
     position: absolute;
-    height: 38px;
+    height: calc(100% - 8px);
     background-color:rgb(255, 255, 255);
     padding: 0 8px;
     top: 4px;
