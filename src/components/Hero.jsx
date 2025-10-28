@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Play, Rocket, Search, X, Globe2, RefreshCw, Download } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { navigateTo } from './Router';
+import { useNavigate } from 'react-router-dom';
 
 function TrailerModal({ open, onClose }) {
   if (!open) return null;

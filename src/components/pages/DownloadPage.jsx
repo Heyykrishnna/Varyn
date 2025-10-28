@@ -1,9 +1,33 @@
 import React, { useState } from 'react';
-import { Monitor, Smartphone, Gamepad2, Download } from 'lucide-react';
+import { Monitor, Smartphone, Gamepad2, Download, Play, X } from 'lucide-react';
+import { TfiApple } from "react-icons/tfi";
+import { GiConsoleController } from "react-icons/gi";
 import Radio from '../downloadpage';
+
+function DownloadModal({ open, onClose }) {
+  if (!open) return null;
+  return (
+    <div className="fixed inset-0 z-50 grid place-items-center bg-black/70 backdrop-blur p-4" onClick={onClose}>
+      <div className="relative w-full max-w-3xl aspect-video bg-black rounded-xl overflow-hidden border border-white/15" onClick={(e) => e.stopPropagation()}>
+        <button onClick={onClose} className="absolute top-2 right-2 z-10 inline-flex items-center justify-center h-9 w-9 rounded-md bg-white/10 hover:bg-white/20 text-white">
+          <X className="h-5 w-5" />
+        </button>
+        <iframe
+          className="absolute inset-0 w-full h-full"
+          src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0"
+          title="Trailer"
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      </div>
+    </div>
+  );
+}
 
 export default function DownloadPage() {
   const [platform, setPlatform] = useState('pc');
+  const [open, setOpen] = useState(false);
 
   return (
     <section className="relative py-20">
@@ -16,20 +40,20 @@ export default function DownloadPage() {
           className="mt-8"
           options={[
             { value: 'pc', label: 'PC', icon: Monitor },
-            { value: 'mac', label: 'MAC', icon: Monitor },
-            { value: 'console', label: 'Console', icon: Gamepad2 },
+            { value: 'mac', label: 'MAC', icon: TfiApple },
+            { value: 'console', label: 'Console', icon: GiConsoleController },
             { value: 'mobile', label: 'Mobile', icon: Smartphone },
           ]}
           value={platform}
           onChange={setPlatform}
         />
 
-        <div className="mt-8 rounded-2xl border border-white/10 p-6 bg-black/40">
+        <div className="mt-8 rounded-2xl border border-white/10 p-6 bg-black/40 overflow-hidden max-w-full">
           {platform === 'pc' && (
             <div>
               <div className="text-lg font-semibold">PC</div>
               <div className="mt-1 text-sm text-white/70">Windows 10+, 8 GB RAM, GTX 1060 or better recommended.</div>
-              <div className="mt-4 flex gap-3">
+              <div className="mt-4 flex flex-wrap gap-3">
                 <a href="#" className="rounded-xl bg-white text-black px-4 py-2.5 text-sm font-semibold inline-flex items-center gap-2"><Download className="h-4 w-4"/> Download Launcher</a>
                 <a href="#" className="rounded-xl border border-white/15 px-4 py-2.5 text-sm hover:bg-white/10">Steam</a>
                 <a href="#" className="rounded-xl border border-white/15 px-4 py-2.5 text-sm hover:bg-white/10">Epic</a>
@@ -40,7 +64,7 @@ export default function DownloadPage() {
             <div>
               <div className="text-lg font-semibold">MAC</div>
               <div className="mt-1 text-sm text-white/70">Sonoma or later, 8 GB RAM, M3 or better recommended.</div>
-              <div className="mt-4 flex gap-3">
+              <div className="mt-4 flex flex-wrap gap-3">
                 <a href="#" className="rounded-xl bg-white text-black px-4 py-2.5 text-sm font-semibold inline-flex items-center gap-2"><Download className="h-4 w-4"/> Download .dmg</a>
                 <a href="#" className="rounded-xl border border-white/15 px-4 py-2.5 text-sm hover:bg-white/10">Steam</a>
               </div>
@@ -50,7 +74,7 @@ export default function DownloadPage() {
             <div>
               <div className="text-lg font-semibold">Console</div>
               <div className="mt-1 text-sm text-white/70">PlayStation and Xbox supported. Requires online subscription for multiplayer.</div>
-              <div className="mt-4 flex gap-3">
+              <div className="mt-4 flex flex-wrap gap-3">
                 <a href="#" className="rounded-xl bg-white text-black px-4 py-2.5 text-sm font-semibold inline-flex items-center gap-2"><Download className="h-4 w-4"/> PlayStation Store</a>
                 <a href="#" className="rounded-xl border border-white/15 px-4 py-2.5 text-sm hover:bg-white/10">Xbox Store</a>
               </div>
@@ -60,14 +84,21 @@ export default function DownloadPage() {
             <div>
               <div className="text-lg font-semibold">Mobile</div>
               <div className="mt-1 text-sm text-white/70">iOS 14+/Android 9+. Cross-progression not supported on mobile.</div>
-              <div className="mt-4 flex gap-3">
+              <div className="mt-4 flex flex-wrap gap-3">
                 <a href="#" className="rounded-xl bg-white text-black px-4 py-2.5 text-sm font-semibold inline-flex items-center gap-2"><Download className="h-4 w-4"/> App Store</a>
                 <a href="#" className="rounded-xl border border-white/15 px-4 py-2.5 text-sm hover:bg-white/10">Google Play</a>
               </div>
             </div>
           )}
         </div>
+        <div>
+          <button onClick={() => setOpen(true)} className="mt-16 inline-flex items-center gap-2 rounded-md border border-black/20 px-6 py-3 text-sm font-semibold hover:bg-black/5">
+            <Play className="h-4 w-4" /> How to Download?
+          </button>
+        </div>
       </div>
+
+      <DownloadModal open={open} onClose={() => setOpen(false)} />
     </section>
   );
 }
