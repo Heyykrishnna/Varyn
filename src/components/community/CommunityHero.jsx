@@ -29,7 +29,7 @@ export default function CommunityHero() {
             </div>
             <div className="rounded-lg border border-black/10 bg-white p-4">
               <div className="text-xs text-black/60">Platforms</div>
-              <div className="mt-1 font-semibold inline-flex items-center gap-2"><Gamepad2 className="h-4 w-4"/> PC • Console • Mobile</div>
+              <div className="mt-1 font-semibold inline-flex items-center gap-2"><Gamepad2 className="h-4 w-4"/> PC • MAC • Console • Mobile</div>
             </div>
             <div className="rounded-lg border border-black/10 bg-white p-4">
               <div className="text-xs text-black/60">Members</div>
