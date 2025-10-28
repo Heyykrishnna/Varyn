@@ -22,6 +22,21 @@ export default function NewsPage() {
     { title: 'Esports Roadmap', tag: 'Competitive', date: 'Oct 22', excerpt: 'Season structure, point system, and qualification details for 2025.' },
     { title: 'Anti-Cheat Module', tag: 'Security', date: 'Oct 14', excerpt: 'Live detection, strike transparency, and real-time appeals.' },
     { title: 'Double XP Weekend', tag: 'Event', date: 'Oct 07', excerpt: 'Grind your pass with bonus XP active this weekend only.' },
+    { title: 'Winter Event Teaser', tag: 'Event', date: 'Nov 12', excerpt: 'Sneak peek at the upcoming Winter Festival with exclusive skins and missions.' },
+    { title: 'Weapon Mastery Update', tag: 'Patch Notes', date: 'Nov 05', excerpt: 'Enhanced weapon progression, new attachments, and balancing adjustments.' },
+    { title: 'Community Spotlight', tag: 'Community', date: 'Nov 01', excerpt: 'Highlighting top creators and community events from October.' },
+    { title: 'New Ranked Season', tag: 'Competitive', date: 'Oct 29', excerpt: 'Rank reset details, rewards, and leaderboard changes for the season.' },
+    { title: 'Server Stability Enhancements', tag: 'Security', date: 'Oct 20', excerpt: 'Reduced latency, improved matchmaking, and better anti-exploit protections.' },
+    { title: 'Halloween Event Recap', tag: 'Event', date: 'Oct 15', excerpt: 'Check out the highlights, winners, and spooky skins from the Halloween event.' },
+    { title: 'Map Optimization Patch', tag: 'Map Update', date: 'Nov 14', excerpt: 'Improved terrain rendering, reduced load times, and smoother transitions.' },
+    { title: 'Spectator Mode Revamp', tag: 'Community', date: 'Nov 11', excerpt: 'New camera angles, replay features, and enhanced streaming tools.' },
+    { title: 'Cross-Platform Play Beta', tag: 'Competitive', date: 'Nov 08', excerpt: 'Test cross-play functionality across PC, console, and mobile platforms.' },
+    { title: 'Client Security Update', tag: 'Security', date: 'Nov 06', excerpt: 'Patch applied to prevent exploit attempts and strengthen authentication.' },
+    { title: 'Holiday Loot Crate Preview', tag: 'Event', date: 'Nov 04', excerpt: 'Sneak peek at limited-time cosmetics, skins, and collectibles.' },
+    { title: 'Tutorial & Training Mode', tag: 'Patch Notes', date: 'Nov 03', excerpt: 'Enhanced beginner tutorials and new practice arenas for skill improvement.' },
+    { title: 'Community Feedback Roundup', tag: 'Community', date: 'Oct 31', excerpt: 'Summary of top suggestions and upcoming features based on player input.' },
+    { title: 'Competitive Rules Update', tag: 'Competitive', date: 'Oct 25', excerpt: 'Revised scoring, penalties, and tie-breaker rules for official matches.' },
+    {title: 'New Seasonal Battle Pass', tag: 'Event', date: 'Nov 15', excerpt: 'Unlock exclusive skins, missions, and rewards with the launch of the new seasonal battle pass.' },
   ], []);
 
   const filtered = useMemo(() => {
