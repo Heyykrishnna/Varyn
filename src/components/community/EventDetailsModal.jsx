@@ -31,8 +31,7 @@ export default function EventDetailsModal({ open, onClose, event }) {
                 <div className="space-y-3">
                   <p>{event.desc || 'Open signup community tournament. Bring your squad, follow fair play guidelines, and have fun.'}</p>
                   <ul className="space-y-2">
-                    <li className="inline-flex items-center gap-2"><Calendar className="h-4 w-4"/> {event.date} • <MapPin className="h-4 w-4"/> {event.region}</li>
-                    <li className="inline-flex items-center gap-2"><Clock className="h-4 w-4"/> Check-in 30m prior to start</li>
+                    <li className="inline-flex items-center gap-2"><Calendar className="h-4 w-4"/> {event.date} • <MapPin className="h-4 w-4"/> {event.region} • <Clock className="h-4 w-4"/> Check-in 30m prior to start</li>
                   </ul>
                   <div className="rounded-md border border-black/10 p-3 bg-black/[0.03]">
                     <div className="font-semibold">Format</div>
