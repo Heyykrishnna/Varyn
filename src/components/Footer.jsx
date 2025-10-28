@@ -1,5 +1,6 @@
 import React from 'react';
 import { navigateTo } from './Router';
+import { href } from 'react-router-dom';
 
 export default function Footer() {
   return (
@@ -7,7 +8,7 @@ export default function Footer() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 text-sm text-white/80">
           <div>
-            <div className="text-white font-semibold">Varyn // Solid</div>
+            <div className="text-grey hover:text-white font-bold text-3xl">Varyn // Solid</div>
           </div>
           <div>
             <div className="text-white font-semibold">Explore</div>
@@ -30,10 +31,10 @@ export default function Footer() {
           <div>
             <div className="text-white font-semibold">Follow</div>
             <ul className="mt-2 space-y-1">
-              <li>Twitter/X</li>
-              <li>Discord</li>
-              <li>Youtube</li>
-              <li>Twitch</li>
+              <li><a href='https://x.com/hey_krishnna' target='_blank'>Twitter / X</a></li>
+              <li><a href='https://www.instagram.com' target='_blank'>Instagram</a></li>
+              <li><a href='https://www.youtube.com' target='_blank'>Youtube</a></li>
+              <li><a href='https://www.twitch.com' target='_blank'>Twitch</a></li>
             </ul>
           </div>
         </div>

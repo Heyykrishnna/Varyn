@@ -33,8 +33,8 @@ export default function Navbar() {
           </li>
         </ul>
         <button onClick={() => navigateTo('download')} className="inline-flex items-center gap-2 rounded-md bg-white px-4 py-2 text-sm font-semibold text-black shadow hover:brightness-95 active:scale-95 transition-all">
-            <Download className="h-4 w-4" /> Play Free
-          </button>
+          <Download className="h-4 w-4" /> Play Free
+        </button>
       </nav>
     </header>
   );
