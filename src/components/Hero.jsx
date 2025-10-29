@@ -1,7 +1,5 @@
-import React, { useMemo, useState } from 'react';
-import { Play, Rocket, Search, X, Globe2, RefreshCw, Download } from 'lucide-react';
-import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import React, { useMemo, useState, useRef } from 'react';
+import { Play, X, Globe2, RefreshCw, Download, ChevronDown } from 'lucide-react';
 
 function TrailerModal({ open, onClose }) {
   if (!open) return null;
@@ -13,7 +11,7 @@ function TrailerModal({ open, onClose }) {
         </button>
         <iframe
           className="absolute inset-0 w-full h-full"
-          src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0"
+          src="https://www.youtube.com/embed/dQw4w9WgXcQ"
           title="Trailer"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -26,83 +24,109 @@ function TrailerModal({ open, onClose }) {
 
 export default function Hero() {
   const [open, setOpen] = useState(false);
-  const [region, setRegion] = useState('NA');
+  const [region, setRegion] = useState('IN');
   const [players, setPlayers] = useState(284_312);
-  const [query, setQuery] = useState('');
-
-  const quickResults = useMemo(() => {
-    const items = [
-      { label: 'Patch 28.1', route: 'news' },
-      { label: 'Cosmic Drop Season', route: 'seasons' },
-      { label: 'Ranked Eclipse Rules', route: 'modes' },
-      { label: 'Download for PC', route: 'download' },
-    ];
-    if (!query) return items;
-    return items.filter((i) => i.label.toLowerCase().includes(query.toLowerCase()));
-  }, [query]);
+  const [muted, setMuted] = useState(true);
+  const videoRef = useRef(null);
 
   const refreshPlayers = () => {
     const delta = Math.floor(Math.random() * 5000) - 2500;
     setPlayers((p) => Math.max(100_000, p + delta));
   };
 
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !muted;
+      setMuted(!muted);
+    }
+  };
+
   return (
-    <section className="relative w-full overflow-hidden">
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mt-6 mb-10 rounded-2xl border border-white/10 bg-white text-black">
-          <div className="grid lg:grid-cols-2">
-            <div className="p-8 sm:p-12">
-              <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-                <div className="inline-flex items-center gap-2 rounded-md bg-black text-white px-2 py-1 text-xs">
-                  Live Now • Season 28
-                </div>
-                <h1 className="mt-4 text-4xl sm:text-6xl font-extrabold leading-[1.05] tracking-tight">
-                  Drop In. Adapt Fast. Outlast Everyone.
-                </h1>
-                <p className="mt-4 text-black/70 text-base sm:text-lg">
-                  Pure battle royale energy with crisp, solid design. Squad up, take the fight, and claim the final circle.
-                </p>
+    <section className="relative w-full min-h-screen bg-black flex items-center justify-center">
+      {/* Full Background Video */}
+      <div className="absolute inset-0">
+        <video
+          ref={videoRef}
+          src="/GAMETRAILER.mp4"
+          autoPlay
+          loop
+          muted={muted}
+          playsInline
+          className="w-full h-full object-cover opacity-70"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black"></div>
+        <button
+          onClick={toggleMute}
+          className="absolute top-4 right-4 z-20 bg-black/50 text-white p-2 rounded-md hover:bg-black/70 transition-colors"
+          aria-label={muted ? "Unmute video" : "Mute video"}
+        >
+          {muted ? 'Unmute' : 'Mute'}
+        </button>
+      </div>
 
-                <div className="mt-6 grid gap-3 sm:flex sm:items-center">
-                  <button onClick={() => navigateTo('download')} className="inline-flex items-center gap-2 rounded-md bg-black text-white px-6 py-3 text-sm font-semibold hover:opacity-90 active:scale-95 transition-all">
-                    <Download className="h-4 w-4" /> Get the Game
-                  </button>
-                  <button onClick={() => setOpen(true)} className="inline-flex items-center gap-2 rounded-md border border-black/20 px-6 py-3 text-sm font-semibold hover:bg-black/5">
-                    <Play className="h-4 w-4" /> Watch Trailer
-                  </button>
-                </div>
+      {/* Content */}
+      <div className="relative z-10 text-center px-6">
+        <h1 className="text-8xl md:text-9xl font-black text-white tracking-wider mb4 drop-shadow-2xl">
+          VARYN
+        </h1>
+        
+        <p className="text-xl md:text-2xl text-white/90 mb-12 font-medium">
+          Drop In. Adapt Fast. Outlast Everyone.
+        </p>
 
-                <div className="absolute bottom-12 flex flex-wrap items-center gap-3 text-sm">
-                  <div className="inline-flex items-center gap-2 rounded-md border border-black/10 px-3 py-2 bg-black/5">
-                    <Globe2 className="h-4 w-4" />
-                    <select value={region} onChange={(e) => setRegion(e.target.value)} className="bg-transparent outline-none">
-                      <option value="IN">IN</option>
-                      <option value="EU">EU</option>
-                      <option value="US">US</option>
-                      <option value="CA">CA</option>
-                    </select>
-                  </div>
-                  <div className="inline-flex items-center gap-2 rounded-md border border-black/10 px-3 py-2 bg-black/5">
-                    <span className="font-semibold">{players.toLocaleString()}</span>
-                    <span className="text-black/60">players online</span>
-                    <button onClick={refreshPlayers} className="ml-1 inline-flex items-center rounded px-2 py-1 hover:bg-black/10" aria-label="Refresh players">
-                      <RefreshCw className="h-4 w-4" />
-                    </button>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-            <div className="p-6 sm:p-8 border-t lg:border-t-0 lg:border-l border-black/10 bg-gray-50 rounded-2xl">
-              <div className="flex">
-                <img
-                  src="https://i.postimg.cc/8C0Gb1SG/hero-example-xertaz-Edited.png"
-                  alt="app screen"
-                  className="h-full w-full object-cover"
-                />
-              </div>
-            </div>
+        {/* Buttons */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+          <a href='/#/download'>
+            <button className="inline-flex items-center gap-2 bg-white text-black px-8 py-4 text-lg font-bold hover:bg-gray-200 transition-colors">
+              <Download className="h-5 w-5" /> GET THE GAME
+            </button>
+          </a>
+          <button onClick={() => setOpen(true)} className="inline-flex items-center gap-2 border-2 border-white text-white px-8 py-4 text-lg font-bold hover:bg-white/10 transition-colors">
+            <Play className="h-5 w-5" /> WATCH TRAILER
+          </button>
+        </div>
+
+        {/* Stats */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+          <div className="inline-flex items-center gap-3 bg-black/60 backdrop-blur-sm border border-white/20 px-5 py-3 rounded">
+            <Globe2 className="h-5 w-5 text-white" />
+            <select 
+              value={region} 
+              onChange={(e) => setRegion(e.target.value)} 
+              className="bg-transparent text-white outline-none font-semibold cursor-pointer"
+            >
+              <option value="IN" className="bg-black">IN</option>
+              <option value="EU" className="bg-black">EU</option>
+              <option value="US" className="bg-black">US</option>
+              <option value="CA" className="bg-black">CA</option>
+            </select>
+          </div>
+          
+          <div className="inline-flex items-center gap-3 bg-black/60 backdrop-blur-sm border border-white/20 px-5 py-3 rounded">
+            <span className="font-bold text-white text-lg">{players.toLocaleString()}</span>
+            <span className="text-white/70">PLAYERS ONLINE</span>
+            <button 
+              onClick={refreshPlayers} 
+              className="ml-2 hover:bg-white/10 p-1 rounded transition-colors" 
+              aria-label="Refresh"
+            >
+              <RefreshCw className="h-4 w-4 text-white" />
+            </button>
           </div>
         </div>
+      </div>
+
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
+        <button
+          onClick={() => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' })}
+          className="flex flex-col items-center gap-2 text-white/60 hover:text-white transition-colors"
+        >
+          <span className="text-sm font-medium tracking-wider bg-white/10 px-4 py-2 rounded-md hover:bg-white/20 transition">
+            SCROLL DOWN
+          </span>
+          <ChevronDown className="h-6 w-6 animate-bounce" />
+        </button>
       </div>
 
       <TrailerModal open={open} onClose={() => setOpen(false)} />
