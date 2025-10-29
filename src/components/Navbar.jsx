@@ -1,6 +1,7 @@
 import React from 'react';
 import { Gamepad2, Trophy, Users, Download, Newspaper, CalendarDays, ShieldCheck, ShoppingBag } from 'lucide-react';
 import { navigateTo } from './Router';
+import Button from './playnow';
 
 export default function Navbar() {
   return (
@@ -32,9 +33,10 @@ export default function Navbar() {
             <button onClick={() => navigateTo('store')} className="hover:text-white transition-colors flex items-center gap-2"><ShoppingBag className="h-4 w-4" /> Store</button>
           </li>
         </ul>
-        <button onClick={() => navigateTo('download')} className="inline-flex items-center gap-2 rounded-md bg-white px-4 py-2 text-sm font-semibold text-black shadow hover:brightness-95 active:scale-95 transition-all">
+        <Button />
+        {/* <button onClick={() => navigateTo('download')} className="inline-flex items-center gap-2 rounded-md bg-white px-4 py-2 text-sm font-semibold text-black shadow hover:brightness-95 active:scale-95 transition-all">
           <Download className="h-4 w-4" /> Play Free
-        </button>
+        </button> */}
       </nav>
     </header>
   );
