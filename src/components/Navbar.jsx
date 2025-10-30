@@ -1,5 +1,5 @@
 import React from 'react';
-import { Gamepad2, Trophy, Users, Newspaper, CalendarDays, ShieldCheck, ShoppingBag, Sparkles } from 'lucide-react';
+import { Gamepad2, Trophy, Users, Newspaper, CalendarDays, ShieldCheck, ShoppingBag, Sparkles, Webhook } from 'lucide-react';
 import { navigateTo } from './Router';
 import Button from './playnow';
 
@@ -18,7 +18,7 @@ export default function Navbar() {
             <button onClick={() => navigateTo('community')} className="hover:text-white hover:drop-shadow-[0_0_6px_#a855f7] transition-all flex items-center gap-2"><Users className="h-4 w-4" /> Community</button>
           </li>
           <li>
-            <button onClick={() => navigateTo('characters')} className="hover:text-white hover:drop-shadow-[0_0_6px_#a855f7] transition-all flex items-center gap-2"><Sparkles className="h-4 w-4" /> Characters</button>
+            <button onClick={() => navigateTo('characters')} className="hover:text-white hover:drop-shadow-[0_0_6px_#a855f7] transition-all flex items-center gap-2"><Webhook className="h-4 w-4" /> Characters</button>
           </li>
           <li>
             <button onClick={() => navigateTo('esports')} className="hover:text-white hover:drop-shadow-[0_0_6px_#a855f7] transition-all flex items-center gap-2"><Trophy className="h-4 w-4" /> Esports</button>

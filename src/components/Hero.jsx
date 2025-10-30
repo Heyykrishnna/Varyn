@@ -57,7 +57,7 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black"></div>
         <button
           onClick={toggleMute}
-          className="absolute top-4 right-4 z-20 bg-black/50 text-white p-2 rounded-md hover:bg-black/70 transition-colors"
+          className="absolute top-4 right-4 z-20 bg-black/50 text-white/50 p-2 rounded-md hover:bg-black/70 transition-colors"
           aria-label={muted ? "Unmute video" : "Mute video"}
         >
           {muted ? 'Unmute' : 'Mute'}
