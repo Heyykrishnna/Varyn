@@ -3,7 +3,7 @@ import { Rocket, Shield, Timer, Swords } from 'lucide-react';
 
 const ModeCard = ({ title, desc, chips = [] }) => (
   <div className="relative rounded-2xl border border-white/10 bg-black/40 p-6 overflow-hidden">
-    <div className="absolute -inset-1 opacity-50 blur-2xl bg-[conic-gradient(from_180deg,rgba(217,70,239,0.15),rgba(34,211,238,0.15),rgba(16,185,129,0.15),transparent_60%)]" />
+    <div className="absolute -inset-1 opacity-50 blur-2xl" />
     <div className="relative">
       <h3 className="text-xl font-semibold">{title}</h3>
       <p className="mt-2 text-white/70 text-sm">{desc}</p>
@@ -13,8 +13,8 @@ const ModeCard = ({ title, desc, chips = [] }) => (
         ))}
       </div>
       <div className="mt-6 flex gap-3">
-        <button className="rounded-full bg-white text-black text-sm font-semibold px-4 py-2 hover:brightness-110">Queue</button>
-        <button className="rounded-full border border-white/15 text-sm px-4 py-2 hover:bg-white/10">Private Match</button>
+        <button className="rounded-md bg-white text-black text-sm font-semibold px-4 py-2 hover:brightness-110">Queue</button>
+        <button className="rounded-md border border-white/15 text-sm px-4 py-2 hover:bg-white/10">Private Match</button>
       </div>
     </div>
   </div>
@@ -23,11 +23,10 @@ const ModeCard = ({ title, desc, chips = [] }) => (
 export default function ModesPage() {
   return (
     <section className="relative py-20">
-      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(60%_60%_at_50%_0%,rgba(0,255,224,0.08),transparent_60%)]" />
+      <div className="absolute inset-0 pointer-events-none]" />
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-3">
-          <Rocket className="h-5 w-5 text-cyan-300" />
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">Modes</h1>
+          <h1 className="text-6xl font-bold tracking-tight">Modes</h1>
         </div>
         <p className="mt-2 text-white/70 max-w-2xl">Pick a playlist. Each mode supports party queue, bots on/off, and custom rules in private lobbies.</p>
 

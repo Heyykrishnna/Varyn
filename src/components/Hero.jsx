@@ -11,7 +11,7 @@ function TrailerModal({ open, onClose }) {
         </button>
         <iframe
           className="absolute inset-0 w-full h-full"
-          src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+          src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0"
           title="Trailer"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -47,7 +47,7 @@ export default function Hero() {
       <div className="absolute inset-0">
         <video
           ref={videoRef}
-          src="/GAMETRAILERF.mp4"
+          src="/GAMETRAILER.mp4"
           autoPlay
           loop
           muted={muted}
@@ -66,14 +66,13 @@ export default function Hero() {
 
       {/* Content */}
       <div className="relative z-10 text-center px-6">
-        <h1 className="text-8xl md:text-9xl font-black text-white tracking-wider mb4 drop-shadow-2xl">
+        <h1 className="text-8xl md:text-9xl font-black text-white tracking-wider mb-4 drop-shadow-2xl">
           VARYN
         </h1>
         
         <p className="text-xl md:text-2xl text-white/90 mb-12 font-medium">
           Drop In. Adapt Fast. Outlast Everyone.
         </p>
-
         {/* Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
           <a href='/#/download'>

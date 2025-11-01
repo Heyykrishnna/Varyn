@@ -10,8 +10,8 @@ export default function PrivacyPage() {
         <div className="mt-8 space-y-6 text-sm leading-relaxed text-white/80">
 
           <p>
-            Welcome to <strong>Varyn // Solid</strong> ("we," "our," or "us"). Your privacy is important to us. 
-            This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website <strong>Varyn // Solid</strong> or use our related services. Please read this policy carefully to understand our practices.
+            Welcome to <strong>VARYN</strong> ("we," "our," or "us"). Your privacy is important to us. 
+            This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website <strong>VARYN</strong> or use our related services. Please read this policy carefully to understand our practices.
           </p>
 
           <p>1. Information We Collect</p>

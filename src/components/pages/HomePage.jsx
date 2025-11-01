@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Hero from '../Hero';
 import ModesShowcase from '../ModesShowcase';
 import { motion } from 'framer-motion';
 import { ShieldCheck, Zap, Radar, Cpu } from 'lucide-react';
 import { navigateTo } from '../Router';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 function Feature({ icon: Icon, title, desc }) {
   return (
@@ -44,9 +46,51 @@ function CTASection() {
 }
 
 export default function HomePage() {
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.utils.toArray(".text p").forEach((el) => {
+      gsap.fromTo(
+        el,
+        {
+          backgroundPositionX: "100%",
+          opacity: 0.2,
+          y: 80,
+        },
+        {
+          backgroundPositionX: "0%",
+          opacity: 1,
+          y: 0,
+          ease: "none",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 80%",
+            end: "bottom 40%",
+            scrub: 1.5,
+          },
+        }
+      );
+    });
+  }, []);
+
   return (
     <>
       <Hero />
+
+      <section className="relative py-32 overflow-hidden">
+        <div className="text text-center">
+          <p className='pb-4'>Beyond speed</p>
+          <p className='pb-4'>Beyond power</p>
+          <p className='pb-4'>Welcome to the next reality!</p>
+        </div>
+      </section>
+
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
 
       <section className="relative py-20">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -72,6 +116,24 @@ export default function HomePage() {
       </motion.div>
 
       <CTASection />
+
+      <style jsx>{`
+        .text > p {
+          font-size: 5rem;
+          font-weight: 800;
+          background: linear-gradient(to right, #ffffff 50%, #333333 50%);
+          background-size: 200% 100%;
+          background-position-x: 100%;
+          color: transparent;
+          -webkit-background-clip: text;
+          background-clip: text;
+          transition: background-position 0.3s ease;
+          margin: 0;
+          line-height: 1.1;
+          opacity: 0;
+          transform: translateY(80px);
+        }
+      `}</style>
     </>
   );
 }

@@ -29,15 +29,15 @@ const modes = [
 
 export default function ModesShowcase() {
   return (
-    <section className="relative py-24 bg-gradient-to-b from-black via-black to-[#04070a]">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_0%,rgba(0,255,224,0.08),transparent_60%)]" />
+    <section className="relative py-24">
+      <div className="pointer-events-none absolute " />
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-end justify-between gap-6 flex-wrap">
           <div>
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">Game Modes</h2>
             <p className="mt-2 text-white/60 max-w-2xl">Choose your fight. Each mode is tuned for high-impact action with fluid movement and tactical decision-making.</p>
           </div>
-          <button onClick={() => navigateTo('news')} className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm text-white/80 hover:bg-white/10 transition">View Patch Notes</button>
+          <button onClick={() => navigateTo('news')} className="rounded-md border border-white/15 bg-white/5 px-4 py-2 text-sm text-white/80 hover:bg-white/10 transition">View Patch Notes</button>
         </div>
 
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

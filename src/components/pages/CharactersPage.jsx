@@ -245,7 +245,7 @@ export default function CharactersPage() {
           </div>
           <header className="mb-10 flex items-end justify-between relative z-10">
             <div>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight bg-clip-text text-white drop-shadow-[0_0_30px_rgba(217,70,239,0.6)] animate-pulse-slow">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight bg-clip-text text-white">
                 Operatives
               </h1>
               <p className="mt-2 text-white/70 max-w-2xl">Explore a roster of specialized operatives. Inspect their roles, kits, and strategic identities in a sleek, futuristic interface.</p>

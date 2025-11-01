@@ -14,7 +14,7 @@ export default function SecurityPage() {
           </div>
           <div className="rounded-2xl border border-white/10 p-6 bg-white/5">
             <div className="font-semibold">Account Security</div>
-            <p className="mt-2 text-sm text-white/70">Enable two-factor authentication (2FA), avoid sharing credentials, and monitor your login history regularly. <strong>Varyn // Solid</strong> will never ask for your password via email or other channels.</p>
+            <p className="mt-2 text-sm text-white/70">Enable two-factor authentication (2FA), avoid sharing credentials, and monitor your login history regularly. <strong>VARYN</strong> will never ask for your password via email or other channels.</p>
           </div>
           <div className="rounded-2xl border border-white/10 p-6 bg-white/5">
             <div className="font-semibold">Data Protection</div>

@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
-import { ShoppingCart, X, Plus, Minus, Trash2, CreditCard } from 'lucide-react';
+import { ShoppingCart, X, Plus, Minus, Trash2, CreditCard, Search, SlidersHorizontal, ChevronDown } from 'lucide-react';
 
-function ProductCard({ item, onAdd }) {
+function ProductCard({ item, onAdd, onOpen }) {
   let description = '';
   switch (item.category) {
     case 'Apparel':
@@ -26,21 +26,28 @@ function ProductCard({ item, onAdd }) {
       description = 'Crafted from premium cotton, this oversized tee offers unmatched comfort and a timeless streetwear look.';
   }
   return (
-    <div className="rounded-2xl border border-white/10 overflow-hidden bg-white text-black flex flex-col transform transition-transform hover:scale-105 hover:shadow-lg h-[480px]">
-      <div className="relative">
-        <img src={item.image} alt={item.title} className="w-full object-cover h-60" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-      </div>
-      <div className="p-6 flex-1 flex flex-col">
-        <div className="font-semibold text-lg">{item.title}</div>
-        <div className="text-sm italic text-black/70">{item.category}</div>
-        <div className="text-sm text-black/60 mt-2 line-clamp-2">
+    <div className="rounded-2xl border border-white/10 overflow-hidden bg-white text-black flex flex-col transform transition-transform hover:scale-105 hover:shadow-lg">
+      <button onClick={() => onOpen(item)} className="relative w-full aspect-[4/5] overflow-hidden group">
+        <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+      </button>
+      <div className="p-5 flex-1 flex flex-col">
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <div className="font-semibold text-base leading-tight">{item.title}</div>
+            <div className="text-xs italic text-black/70">{item.category}</div>
+          </div>
+          {item.badge && (
+            <span className="text-[10px] uppercase px-2 py-1 rounded bg-black text-white">{item.badge}</span>
+          )}
+        </div>
+        <div className="text-sm text-black/70 mt-2 line-clamp-2">
           {description}
         </div>
         <div className="mt-auto pt-4 flex items-center justify-between">
           <div className="font-bold text-lg">₹{item.price.toFixed(2)}</div>
-          <button 
-            onClick={() => onAdd(item)} 
+          <button
+            onClick={() => onAdd(item)}
             className="rounded-md bg-black text-white px-4 py-2 text-xs font-semibold hover:opacity-90 hover:bg-gray-800 transform transition duration-300 hover:scale-105"
           >
             Add to Cart
@@ -65,20 +72,27 @@ function CartDrawer({ open, onClose, items, onInc, onDec, onRemove, onCheckout }
           {items.length === 0 && <div className="text-sm text-white/60">Your cart is empty.</div>}
           {items.map((it) => (
             <div key={it.id} className="rounded-md border border-white/10 p-3 bg-white/5">
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="font-semibold text-sm">{it.title}</div>
-                  <div className="text-xs text-white/60">₹{it.price.toFixed(2)}</div>
+              <div className="flex items-center gap-3">
+                <div className="w-14 h-14 rounded overflow-hidden shrink-0 bg-white/10">
+                  <img src={it.image} alt="" className="w-full h-full object-cover" />
                 </div>
-                <button onClick={() => onRemove(it.id)} className="text-white/60 hover:text-white"><Trash2 className="h-4 w-4"/></button>
-              </div>
-              <div className="mt-3 flex items-center justify-between">
-                <div className="inline-flex items-center gap-2">
-                  <button onClick={() => onDec(it.id)} className="h-7 w-7 grid place-items-center rounded-md border border-white/15"> <Minus className="h-4 w-4"/> </button>
-                  <span className="text-sm">{it.qty}</span>
-                  <button onClick={() => onInc(it.id)} className="h-7 w-7 grid place-items-center rounded-md border border-white/15"> <Plus className="h-4 w-4"/> </button>
+                <div className="flex-1">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <div className="font-semibold text-sm leading-tight">{it.title}</div>
+                      <div className="text-xs text-white/60">₹{it.price.toFixed(2)}</div>
+                    </div>
+                    <button onClick={() => onRemove(it.id)} className="text-white/60 hover:text-white"><Trash2 className="h-4 w-4"/></button>
+                  </div>
+                  <div className="mt-3 flex items-center justify-between">
+                    <div className="inline-flex items-center gap-2">
+                      <button onClick={() => onDec(it.id)} className="h-7 w-7 grid place-items-center rounded-md border border-white/15"> <Minus className="h-4 w-4"/> </button>
+                      <span className="text-sm">{it.qty}</span>
+                      <button onClick={() => onInc(it.id)} className="h-7 w-7 grid place-items-center rounded-md border border-white/15"> <Plus className="h-4 w-4"/> </button>
+                    </div>
+                    <div className="font-semibold text-sm">₹{(it.price * it.qty).toFixed(2)}</div>
+                  </div>
                 </div>
-                <div className="font-semibold text-sm">₹{(it.price * it.qty).toFixed(2)}</div>
               </div>
             </div>
           ))}
@@ -115,6 +129,10 @@ export default function StorePage() {
 
   const [cart, setCart] = useState([]);
   const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState('');
+  const [category, setCategory] = useState('All');
+  const [sort, setSort] = useState('featured');
+  const [active, setActive] = useState(null);
 
   const addToCart = (item) => {
     setCart((prev) => {
@@ -134,27 +152,103 @@ export default function StorePage() {
     setOpen(false);
   };
 
+  const categories = useMemo(() => ['All', ...Array.from(new Set(products.map(p => p.category)))], [products]);
+
+  const list = useMemo(() => {
+    let filtered = products.filter(p =>
+      (category === 'All' || p.category === category) &&
+      (p.title.toLowerCase().includes(query.toLowerCase()) || p.category.toLowerCase().includes(query.toLowerCase()))
+    );
+    if (sort === 'price-asc') filtered = filtered.sort((a,b)=> a.price - b.price);
+    if (sort === 'price-desc') filtered = filtered.sort((a,b)=> b.price - a.price);
+    if (sort === 'title') filtered = filtered.sort((a,b)=> a.title.localeCompare(b.title));
+    return filtered;
+  }, [products, query, category, sort]);
+
+  const ProductModal = ({ item, onClose }) => {
+    if (!item) return null;
+    return (
+      <div className="fixed inset-0 z-50">
+        <div className="absolute inset-0 bg-black/70" onClick={onClose} />
+        <div className="absolute inset-0 p-4 sm:p-6 flex items-center justify-center">
+          <div className="w-full max-w-4xl rounded-2xl overflow-hidden bg-white text-black shadow-xl">
+            <div className="grid grid-cols-1 md:grid-cols-2">
+              <div className="relative w-full aspect-[4/5] md:aspect-auto md:h-full overflow-hidden">
+                <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
+              </div>
+              <div className="p-6 md:p-8 flex flex-col">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <h3 className="text-2xl font-semibold leading-tight">{item.title}</h3>
+                    <p className="text-sm text-black/60">{item.category}</p>
+                  </div>
+                  <button onClick={onClose} className="h-9 w-9 grid place-items-center rounded-md bg-black text-white"><X className="h-5 w-5"/></button>
+                </div>
+                <p className="mt-4 text-sm text-black/80">High-quality, durable, and designed with true fans in mind, this product is crafted for comfort, style, and long-lasting use. Perfect for everyday wear, whether at home or on the go, it also makes a thoughtful and exciting gift for friends and family. With attention to detail that ensures authenticity and a versatile design suitable for casual outings, events, or lounging, it’s built to withstand daily use without losing its charm. Show off your passion and fandom wherever you go—this is a must-have addition that combines functionality, style, and fandom in one exceptional product.</p>
+                <div className="mt-auto pt-6 flex items-center justify-between">
+                  <div className="text-2xl font-bold">₹{item.price.toFixed(2)}</div>
+                  <div className="inline-flex gap-3">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <section className="relative py-12 sm:py-16 min-h-screen">
       <div className="relative max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-white">Store</h1>
-            <p className="mt-3 text-white/80 max-w-md">Buy official merchandise and gear. Solid design, premium feel.</p>
+        <div className="flex flex-col gap-6">
+          <div className="flex items-center justify-between gap-4 flex-wrap">
+            <div>
+              <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-white">Store</h1>
+              <p className="mt-3 text-white/80 max-w-md">Buy official merchandise and gear. Solid design, premium feel.</p>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <select value={sort} onChange={(e)=>setSort(e.target.value)} className="appearance-none pr-8 pl-3 py-2 rounded-md border border-white/15 bg-white/5 text-white text-sm">
+                  <option value="featured">Featured</option>
+                  <option value="price-asc">Price: Low to High</option>
+                  <option value="price-desc">Price: High to Low</option>
+                  <option value="title">Title</option>
+                </select>
+                <ChevronDown className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 h-4 w-4 text-white/60"/>
+              </div>
+              <button onClick={()=>setOpen(true)} className="inline-flex items-center gap-2 rounded-md border border-white/15 bg-white/5 px-4 py-2 text-sm text-white hover:bg-white/10 transition">
+                <ShoppingCart className="h-4 w-4"/> Cart ({cart.reduce((s,i)=>s+i.qty,0)})
+              </button>
+            </div>
           </div>
-          <button onClick={()=>setOpen(true)} className="inline-flex items-center gap-2 rounded-md border border-white/15 bg-white/5 px-4 py-2 text-sm text-white hover:bg-white/10 transition">
-            <ShoppingCart className="h-4 w-4"/> Open Cart ({cart.reduce((s,i)=>s+i.qty,0)})
-          </button>
-        </div>
 
-        <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {products.map((p) => (
-            <ProductCard key={p.id} item={p} onAdd={addToCart} />
-          ))}
+          <div className="flex items-center gap-3 flex-wrap">
+            <div className="relative flex-1 min-w-[220px] max-w-md">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/50"/>
+              <input value={query} onChange={(e)=>setQuery(e.target.value)} placeholder="Search products" className="w-full pl-10 pr-3 py-2 rounded-md border border-white/15 bg-white/5 text-white placeholder-white/50 text-sm outline-none focus:ring-2 focus:ring-white/20"/>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 overflow-x-auto scrollbar-none">
+            {categories.map((c) => (
+              <button key={c} onClick={() => setCategory(c)} className={`px-4 py-2 rounded-full text-sm border ${category===c ? 'bg-white text-black border-white' : 'bg-white/5 text-white border-white/15 hover:bg-white/10'}`}>
+                {c}
+              </button>
+            ))}
+          </div>
+
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {list.map((p) => (
+              <ProductCard key={p.id} item={p} onAdd={addToCart} onOpen={setActive} />
+            ))}
+          </div>
         </div>
       </div>
 
       <CartDrawer open={open} onClose={()=>setOpen(false)} items={cart} onInc={inc} onDec={dec} onRemove={removeItem} onCheckout={checkout} />
+      <ProductModal item={active} onClose={()=>setActive(null)} />
     </section>
   );
 }

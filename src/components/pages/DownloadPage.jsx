@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Monitor, Smartphone, Gamepad2, Download, Play, X } from 'lucide-react';
 import { TfiApple } from "react-icons/tfi";
 import { GiConsoleController } from "react-icons/gi";
@@ -28,10 +28,45 @@ function DownloadModal({ open, onClose }) {
 export default function DownloadPage() {
   const [platform, setPlatform] = useState('pc');
   const [open, setOpen] = useState(false);
+  const [images] = useState([
+    'https://user-gen-media-assets.s3.amazonaws.com/seedream_images/a9a7a209-baf4-4b2d-8658-c92b73723f1f.png',
+    'https://user-gen-media-assets.s3.amazonaws.com/seedream_images/db77143d-4c6a-48d7-8ee5-a7f382fb4e0e.png',
+    'https://user-gen-media-assets.s3.amazonaws.com/seedream_images/9c0e5d2a-a352-4b73-875d-a4adf4ba7c1b.png',
+    'https://user-gen-media-assets.s3.amazonaws.com/seedream_images/89f3987d-52c1-40ee-ba00-c83734e45b95.png',
+    'https://user-gen-media-assets.s3.amazonaws.com/seedream_images/07941fc7-5b03-4f81-9885-346604072ec2.png',
+  ]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [animating, setAnimating] = useState(false);
+
+  const prevImage = () => {
+    setAnimating(true);
+    setCurrentIndex((currentIndex - 1 + images.length) % images.length);
+  };
+
+  const nextImage = () => {
+    setAnimating(true);
+    setCurrentIndex((currentIndex + 1) % images.length);
+  };
+
+  useEffect(() => {
+    setAnimating(true);
+    const timer = setTimeout(() => {
+      setAnimating(false);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [currentIndex]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setAnimating(true);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [images.length]);
 
   return (
     <section className="relative py-20">
-      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(60%_60%_at_50%_0%,rgba(255,0,212,0.08),transparent_60%)]" />
+      <div className="absolute inset-0 pointer-events-none " />
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">Download</h1>
         <p className="mt-2 text-white/70 max-w-2xl">Choose your platform and get started. Cross-play supported where available.</p>
@@ -96,6 +131,46 @@ export default function DownloadPage() {
             <Play className="h-4 w-4" /> How to Download?
           </button>
         </div>
+        <section className="mt-32 max-w-3xl mx-auto">
+          <div className="relative flex items-center justify-center">
+            <button
+              onClick={prevImage}
+              className="absolute left-0 z-10 ml-2 rounded-full bg-black hover:bg-black/60 text-white p-2 transition-colors duration-300"
+              aria-label="Previous Image"
+            >
+              &#8592;
+            </button>
+            <div className={`overflow-hidden w-full aspect-square rounded-lg transition-opacity duration-500 ease-in-out ${animating ? 'opacity-0 translate-x-4' : 'opacity-100 translate-x-0'}`}>
+              <img
+                key={images[currentIndex]}
+                src={images[currentIndex]}
+                alt={`Slide ${currentIndex + 1}`}
+                className={`w-full h-full object-cover rounded-lg transition-transform duration-500 ease-in-out ${animating ? 'scale-105' : 'scale-100'}`}
+                style={{ transformOrigin: 'center center' }}
+              />
+            </div>
+            <button
+              onClick={nextImage}
+              className="absolute right-0 z-10 mr-2 rounded-full bg-black hover:bg-black/60 text-white p-2 transition-colors duration-300"
+              aria-label="Next Image"
+            >
+              &#8594;
+            </button>
+          </div>
+          <div className="mt-4 flex justify-center gap-2">
+            {images.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => {
+                  setAnimating(true);
+                  setCurrentIndex(idx);
+                }}
+                className={`w-3 h-3 rounded-full transition-colors duration-300 ${currentIndex === idx ? 'bg-blue-600' : 'bg-white/40 hover:bg-white/70'}`}
+                aria-label={`Go to slide ${idx + 1}`}
+              />
+            ))}
+          </div>
+        </section>
       </div>
 
       <DownloadModal open={open} onClose={() => setOpen(false)} />
