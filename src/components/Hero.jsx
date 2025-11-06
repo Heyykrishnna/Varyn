@@ -47,7 +47,7 @@ export default function Hero() {
       <div className="absolute inset-0">
         <video
           ref={videoRef}
-          src="/GAMETRAILER.mp4"
+          src= "https://res.cloudinary.com/dqh5g2nmn/video/upload/f_auto:video/GAMETRAILERF_utywly"
           autoPlay
           loop
           muted={muted}
