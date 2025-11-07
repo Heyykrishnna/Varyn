@@ -13,6 +13,7 @@ import PrivacyPage from './pages/PrivacyPage';
 import StorePage from './pages/StorePage';
 import CharactersPage from './pages/CharactersPage';
 import MapsPage from './pages/MapsPage';
+import WeaponPage from './pages/Weapon';
 
 export const navigateTo = (route) => {
   const path = route.startsWith('#') ? route : `#/${route}`;
@@ -67,7 +68,8 @@ export default function Router() {
         return <CharactersPage />;
       case 'maps':
         return <MapsPage />;
-      case '':
+      case 'weapon':
+        return <WeaponPage />;
       default:
         return <HomePage />;
     }

@@ -18,6 +18,7 @@ export default function Footer() {
                 <li><button onClick={() => navigateTo('modes')} className="hover:text-white">Game Modes</button></li>
                 <li><button onClick={() => navigateTo('seasons')} className="hover:text-white">Seasons</button></li>
                 <li><button onClick={() => navigateTo('esports')} className="hover:text-white">Esports</button></li>
+                <li><button onClick={() => navigateTo('weapon')} className="hover:text-white">Weapons</button></li>
                 <li><button onClick={() => navigateTo('news')} className="hover:text-white">News</button></li>
                 <li><button onClick={() => navigateTo('store')} className="hover:text-white">Store</button></li>
               </ul>
