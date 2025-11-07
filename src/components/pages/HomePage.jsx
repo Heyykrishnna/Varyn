@@ -117,9 +117,10 @@ export default function HomePage() {
         <ModesShowcase />
       </motion.div>
 
+      <CTASection />
+
       <LogoCloudAnimated />
 
-      <CTASection />
 
       <style jsx>{`
         .text > p {
