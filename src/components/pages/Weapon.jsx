@@ -3,7 +3,7 @@ import Navbar from '../Navbar';
 import Footer from '../Footer';
 import MapCard from '../maps/MapCard';
 import MapModal from '../maps/MapModal';
-import WeaponCard from '../weapon/weaponCard';
+import WeaponCard from '../weapon/WeaponCard';
 import { motion } from 'framer-motion';
 
 const gradients = {
