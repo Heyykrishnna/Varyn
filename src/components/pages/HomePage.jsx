@@ -6,6 +6,8 @@ import { ShieldCheck, Zap, Radar, Cpu } from 'lucide-react';
 import { navigateTo } from '../Router';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { LogoCloudAnimated } from '../logo';
+
 
 function Feature({ icon: Icon, title, desc }) {
   return (
@@ -114,6 +116,8 @@ export default function HomePage() {
       <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
         <ModesShowcase />
       </motion.div>
+
+      <LogoCloudAnimated />
 
       <CTASection />
 
