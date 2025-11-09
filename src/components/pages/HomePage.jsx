@@ -7,6 +7,7 @@ import { navigateTo } from '../Router';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { LogoCloudAnimated } from '../logo';
+import ScrollVelocity from '../ScrollVelocity';
 
 
 function Feature({ icon: Icon, title, desc }) {
@@ -112,6 +113,19 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <br/>
+      <br/>
+      <br/>
+
+      <ScrollVelocity
+        texts={['VARYN', 'BATTLEGROUND']} 
+        className="custom-scroll-text"
+      />
+
+      <br/>
+      <br/>
+      <br/>
 
       <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
         <ModesShowcase />

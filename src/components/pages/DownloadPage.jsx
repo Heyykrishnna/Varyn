@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Monitor, Smartphone, Gamepad2, Download, Play, X } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Monitor, Smartphone, Gamepad2, Download, Play, X, Pause, Maximize2, ZoomIn, ZoomOut } from 'lucide-react';
 import { TfiApple } from "react-icons/tfi";
 import { GiConsoleController } from "react-icons/gi";
 import Radio from '../downloadpage';
@@ -25,6 +25,20 @@ function DownloadModal({ open, onClose }) {
   );
 }
 
+function ImageModal({ open, onClose, image }) {
+  if (!open) return null;
+  return (
+    <div className="fixed inset-0 z-50 grid place-items-center bg-black/90 backdrop-blur-sm p-4" onClick={onClose}>
+      <div className="relative max-w-7xl max-h-[90vh]" onClick={(e) => e.stopPropagation()}>
+        <button onClick={onClose} className="absolute -top-12 right-0 z-10 inline-flex items-center justify-center h-10 w-10 rounded-full bg-white/10 hover:bg-white/20 text-white">
+          <X className="h-6 w-6" />
+        </button>
+        <img src={image} alt="Full size" className="max-w-full max-h-[85vh] object-contain rounded-lg" />
+      </div>
+    </div>
+  );
+}
+
 export default function DownloadPage() {
   const [platform, setPlatform] = useState('pc');
   const [open, setOpen] = useState(false);
@@ -37,6 +51,14 @@ export default function DownloadPage() {
   ]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [fullscreenImage, setFullscreenImage] = useState(null);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState(0);
+  const [showThumbnails, setShowThumbnails] = useState(false);
+  const intervalRef = useRef(null);
 
   const prevImage = () => {
     setAnimating(true);
@@ -48,6 +70,69 @@ export default function DownloadPage() {
     setCurrentIndex((currentIndex + 1) % images.length);
   };
 
+  const goToImage = (index) => {
+    setAnimating(true);
+    setCurrentIndex(index);
+  };
+
+  const togglePlayPause = () => {
+    setIsPlaying(!isPlaying);
+  };
+
+  // Handle keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowLeft') prevImage();
+      if (e.key === 'ArrowRight') nextImage();
+      if (e.key === ' ') {
+        e.preventDefault();
+        togglePlayPause();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [currentIndex, isPlaying]);
+
+  // Handle touch swipe
+  const handleTouchStart = (e) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStart - touchEnd > 75) {
+      nextImage();
+    }
+    if (touchStart - touchEnd < -75) {
+      prevImage();
+    }
+  };
+
+  // Handle mouse drag
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    setDragStart(e.clientX);
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+  };
+
+  const handleMouseUp = (e) => {
+    if (!isDragging) return;
+    setIsDragging(false);
+    const dragEnd = e.clientX;
+    if (dragStart - dragEnd > 50) {
+      nextImage();
+    }
+    if (dragStart - dragEnd < -50) {
+      prevImage();
+    }
+  };
+
   useEffect(() => {
     setAnimating(true);
     const timer = setTimeout(() => {
@@ -57,12 +142,22 @@ export default function DownloadPage() {
   }, [currentIndex]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setAnimating(true);
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, [images.length]);
+    if (isPlaying) {
+      intervalRef.current = setInterval(() => {
+        setAnimating(true);
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+      }, 4000);
+    } else {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    }
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [images.length, isPlaying]);
 
   return (
     <section className="relative py-20">
@@ -132,48 +227,163 @@ export default function DownloadPage() {
           </button>
         </div>
         <section className="mt-32 max-w-3xl mx-auto">
-          <div className="relative flex items-center justify-center">
-            <button
-              onClick={prevImage}
-              className="absolute left-0 z-10 ml-2 rounded-full bg-black hover:bg-black/60 text-white p-2 transition-colors duration-300"
-              aria-label="Previous Image"
-            >
-              &#8592;
-            </button>
-            <div className={`overflow-hidden w-full aspect-square rounded-lg transition-opacity duration-500 ease-in-out ${animating ? 'opacity-0 translate-x-4' : 'opacity-100 translate-x-0'}`}>
-              <img
-                key={images[currentIndex]}
-                src={images[currentIndex]}
-                alt={`Slide ${currentIndex + 1}`}
-                className={`w-full h-full object-cover rounded-lg transition-transform duration-500 ease-in-out ${animating ? 'scale-105' : 'scale-100'}`}
-                style={{ transformOrigin: 'center center' }}
+          <div className="relative">
+            {/* Main Image Container */}
+            <div className="relative flex items-center justify-center group">
+              <button
+                onClick={prevImage}
+                className="absolute left-0 z-10 ml-2 rounded-full bg-black/70 hover:bg-black/90 text-white p-3 transition-all duration-300 opacity-0 group-hover:opacity-100"
+                aria-label="Previous Image"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              
+              <div 
+                className={`overflow-hidden w-full aspect-square rounded-lg transition-all duration-500 ease-in-out cursor-grab active:cursor-grabbing ${animating ? 'opacity-0 translate-x-4' : 'opacity-100 translate-x-0'}`}
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={() => setIsDragging(false)}
+              >
+                <img
+                  key={images[currentIndex]}
+                  src={images[currentIndex]}
+                  alt={`Slide ${currentIndex + 1}`}
+                  className={`w-full h-full object-cover rounded-lg transition-transform duration-500 ease-in-out ${animating ? 'scale-105' : 'scale-100'} ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+                  style={{ transformOrigin: 'center center' }}
+                  draggable="false"
+                />
+              </div>
+              
+              <button
+                onClick={nextImage}
+                className="absolute right-0 z-10 mr-2 rounded-full bg-black/70 hover:bg-black/90 text-white p-3 transition-all duration-300 opacity-0 group-hover:opacity-100"
+                aria-label="Next Image"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+
+              {/* Image Counter */}
+              <div className="absolute top-4 left-4 bg-black/70 backdrop-blur-sm px-3 py-1.5 rounded-full text-sm font-medium">
+                {currentIndex + 1} / {images.length}
+              </div>
+
+              {/* Control Buttons */}
+              <div className="absolute top-4 right-4 flex gap-2">
+                <button
+                  onClick={togglePlayPause}
+                  className="bg-black/70 backdrop-blur-sm hover:bg-black/90 text-white p-2 rounded-full transition-colors duration-300"
+                  aria-label={isPlaying ? "Pause" : "Play"}
+                >
+                  {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+                </button>
+                <button
+                  onClick={() => setFullscreenImage(images[currentIndex])}
+                  className="bg-black/70 backdrop-blur-sm hover:bg-black/90 text-white p-2 rounded-full transition-colors duration-300"
+                  aria-label="Fullscreen"
+                >
+                  <Maximize2 className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Progress Bar */}
+            <div className="mt-3 h-1 bg-white/20 rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-white transition-all duration-100 ease-linear"
+                style={{ 
+                  width: `${((currentIndex + 1) / images.length) * 100}%`
+                }}
               />
             </div>
-            <button
-              onClick={nextImage}
-              className="absolute right-0 z-10 mr-2 rounded-full bg-black hover:bg-black/60 text-white p-2 transition-colors duration-300"
-              aria-label="Next Image"
-            >
-              &#8594;
-            </button>
-          </div>
-          <div className="mt-4 flex justify-center gap-2">
-            {images.map((_, idx) => (
+
+            {/* Dot Indicators */}
+            <div className="mt-4 flex justify-center gap-2">
+              {images.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => goToImage(idx)}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    currentIndex === idx 
+                      ? 'bg-white w-8' 
+                      : 'bg-white/40 hover:bg-white/70'
+                  }`}
+                  aria-label={`Go to slide ${idx + 1}`}
+                />
+              ))}
+            </div>
+
+            {/* Thumbnail Toggle Button */}
+            <div className="mt-4 flex justify-center">
               <button
-                key={idx}
-                onClick={() => {
-                  setAnimating(true);
-                  setCurrentIndex(idx);
-                }}
-                className={`w-3 h-3 rounded-full transition-colors duration-300 ${currentIndex === idx ? 'bg-blue-600' : 'bg-white/40 hover:bg-white/70'}`}
-                aria-label={`Go to slide ${idx + 1}`}
-              />
-            ))}
+                onClick={() => setShowThumbnails(!showThumbnails)}
+                className="text-sm text-white/70 hover:text-white transition-colors duration-300 flex items-center gap-2"
+              >
+                {showThumbnails ? 'Hide' : 'Show'} Thumbnails
+                <svg 
+                  className={`w-4 h-4 transition-transform duration-300 ${showThumbnails ? 'rotate-180' : ''}`}
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Thumbnails Grid */}
+            <div 
+              className={`transition-all duration-500 ease-in-out overflow-hidden ${
+                showThumbnails ? 'max-h-96 opacity-100 mt-6' : 'max-h-0 opacity-0'
+              }`}
+            >
+              <div className="grid grid-cols-5 gap-3">
+                {images.map((img, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => goToImage(idx)}
+                    className={`relative aspect-square rounded-lg overflow-hidden transition-all duration-300 ${
+                      currentIndex === idx 
+                        ? 'ring-2 ring-blue-600 ring-offset-2 ring-offset-black scale-105' 
+                        : 'opacity-60 hover:opacity-100 hover:scale-105'
+                    }`}
+                  >
+                    <img
+                      src={img}
+                      alt={`Thumbnail ${idx + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                    {currentIndex === idx && (
+                      <div className="absolute inset-0 bg-blue-600/20 flex items-center justify-center">
+                        <div className="w-3 h-3 bg-blue-600 rounded-full" />
+                      </div>
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Keyboard Hints */}
+            <div className="mt-6 text-center text-xs text-white/50">
+              Use arrow keys to navigate • Space to play/pause • Click image for fullscreen
+            </div>
           </div>
         </section>
       </div>
 
       <DownloadModal open={open} onClose={() => setOpen(false)} />
+      <ImageModal 
+        open={!!fullscreenImage} 
+        onClose={() => setFullscreenImage(null)} 
+        image={fullscreenImage} 
+      />
     </section>
   );
 }
