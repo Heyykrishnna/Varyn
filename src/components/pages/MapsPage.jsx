@@ -130,7 +130,7 @@ export default function MapsPage() {
   const [active, setActive] = useState(null);
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen text-white">
       <Navbar />
 
       <main className="pt-20">
