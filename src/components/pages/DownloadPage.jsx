@@ -43,9 +43,9 @@ export default function DownloadPage() {
   const [platform, setPlatform] = useState('pc');
   const [open, setOpen] = useState(false);
   const [images] = useState([
-    'https://user-gen-media-assets.s3.amazonaws.com/seedream_images/a9a7a209-baf4-4b2d-8658-c92b73723f1f.png',
-    'https://user-gen-media-assets.s3.amazonaws.com/seedream_images/db77143d-4c6a-48d7-8ee5-a7f382fb4e0e.png',
-    'https://user-gen-media-assets.s3.amazonaws.com/seedream_images/9c0e5d2a-a352-4b73-875d-a4adf4ba7c1b.png',
+    'https://res.cloudinary.com/dqh5g2nmn/image/upload/v1762744985/42334946-40bf-4a2e-99de-df845ed7553a_vfkifg.jpg',
+    'https://res.cloudinary.com/dqh5g2nmn/image/upload/v1762745250/8a8c8d22-c0a5-485e-b0bb-5c9dbf408838_noc7x2.jpg',
+    'https://res.cloudinary.com/dqh5g2nmn/image/upload/v1762745792/53a3d480-fd16-4364-9335-4084da799c33_vd3tkn.jpg',
     'https://user-gen-media-assets.s3.amazonaws.com/seedream_images/89f3987d-52c1-40ee-ba00-c83734e45b95.png',
     'https://user-gen-media-assets.s3.amazonaws.com/seedream_images/07941fc7-5b03-4f81-9885-346604072ec2.png',
   ]);
