@@ -22,7 +22,7 @@ function Feature({ icon: Icon, title, desc }) {
 
 function CTASection() {
   return (
-    <section className="relative">
+    <section className="relative py-16">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="rounded-2xl border border-white/10 overflow-hidden bg-white/5">
           <div className="p-8 sm:p-12 grid gap-8 lg:grid-cols-2 items-center">
