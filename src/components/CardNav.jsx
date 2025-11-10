@@ -134,6 +134,17 @@ const CardNav = ({
     }
   };
 
+  const closeMenu = () => {
+    if (isExpanded) {
+      const tl = tlRef.current;
+      if (tl) {
+        setIsHamburgerOpen(false);
+        tl.eventCallback('onReverseComplete', () => setIsExpanded(false));
+        tl.reverse();
+      }
+    }
+  };
+
   const setCardRef = i => el => {
     if (el) cardsRef.current[i] = el;
   };
@@ -201,7 +212,10 @@ const CardNav = ({
                   <a
                     key={`${lnk.label}-${i}`}
                     className="nav-card-link inline-flex items-center gap-[6px] no-underline cursor-pointer transition-opacity duration-300 hover:opacity-75 text-[15px] md:text-[16px]"
-                    onClick={lnk.onClick}
+                    onClick={() => {
+                      lnk.onClick?.();
+                      closeMenu();
+                    }}
                     aria-label={lnk.ariaLabel}>
                     <GoArrowUpRight className="nav-card-link-icon shrink-0" aria-hidden="true" />
                     {lnk.label}

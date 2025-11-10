@@ -221,11 +221,11 @@ export default function CharactersPage() {
   }, []);
 
   return (
-    <div className="relative min-h-screen text-white overflow-x-hidden">
+    <div className="relative min-h-screen text-white overflow-x-hidden pt-6">
       {/* Video Background */}
       <video
         className="fixed top-0 left-0 w-full h-full object-cover -z-10"
-        src="/videos/futuristic-bg.mp4"
+        src="https://res.cloudinary.com/dqh5g2nmn/video/upload/v1762752130/GAMECHARCTERS_w9ksfs.mp4"
         autoPlay
         loop
         muted

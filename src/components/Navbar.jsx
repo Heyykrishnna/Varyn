@@ -1,6 +1,6 @@
 import React from 'react';
 import CardNav from './CardNav';
-import logo from '/public/logo-black.png';
+import logo from '/logo-black.png';
 import { navigateTo } from './Router';
 import Button from './playnow';
 
