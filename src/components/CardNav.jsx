@@ -11,7 +11,7 @@ const CardNav = ({
   items,
   className = '',
   ease = 'power3.out',
-  baseColor = '#fff',
+  baseColor = '#98989c',
   menuColor,
   buttonBgColor,
   buttonTextColor
@@ -155,7 +155,7 @@ const CardNav = ({
       <nav
         ref={navRef}
         className={`card-nav ${isExpanded ? 'open' : ''} block h-[60px] p-0 rounded-xl shadow-md relative overflow-hidden will-change-[height]`}
-        style={{ backgroundColor: 'white' }}>
+        style={{ backgroundColor: '#98989c' }}>
         <div
           className="card-nav-top absolute inset-x-0 top-0 h-[60px] flex items-center justify-between p-2 pl-[1.1rem] z-[2]">
           <div

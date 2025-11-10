@@ -214,6 +214,8 @@ const CHARACTERS = [
 export default function CharactersPage() {
   const [activeId, setActiveId] = useState(null);
   const [gridVisible, setGridVisible] = useState(false);
+  const [muted, setMuted] = useState(true);
+  const toggleMute = () => setMuted(prev => !prev);
   const activeCharacter = useMemo(() => CHARACTERS.find(c => c.id === activeId) || null, [activeId]);
 
   useEffect(() => {
@@ -228,14 +230,22 @@ export default function CharactersPage() {
         src="https://res.cloudinary.com/dqh5g2nmn/video/upload/v1762752130/GAMECHARCTERS_w9ksfs.mp4"
         autoPlay
         loop
-        muted
+        muted={muted}
         playsInline
       />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black"></div>
+        <button
+          onClick={toggleMute}
+          className="absolute top-28 left-36 z-20 bg-black text-white p-2 rounded-md hover:bg-black/70 transition-colors"
+          aria-label={muted ? "Unmute video" : "Mute video"}
+        >
+          {muted ? 'Unmute' : 'Mute'}
+        </button>
       {/* Overlay */}
       <div className="fixed top-0 left-0 w-full h-full bg-black/60 backdrop-blur-sm -z-5" />
 
       <Navbar />
-      <main className="pt-24 pb-24 relative z-10">
+      <main className="pt-36 pb-24 relative z-10">
         <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
           {/* Particle Effects */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
