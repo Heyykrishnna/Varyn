@@ -29,7 +29,7 @@ export default function App() {
         style={{ visibility: showContent ? 'visible' : 'hidden' }}
       >
         <Navbar />
-        <main className="pt-16">
+        <main>
           <AppRouter />
         </main>
         <Footer />
